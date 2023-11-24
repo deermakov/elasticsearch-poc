@@ -7,16 +7,22 @@ PoC Spring Data Elasticsearch, включая:
 - Обновление (merge) графа сущностей, включая обновление (в т.ч. перепривязку) вложенных сущностей
 
 ## Инфраструктура
-MongoDB docker image: https://hub.docker.com/_/mongo-express <br>
-Конфигурация инфраструктуры: _/docker/docker-compose.yaml_ <br>
+Конфигурация инфраструктуры: _/docker <br>_
 Запуск инфраструктуры: `docker-compose up -d` <br>
 Остановка инфраструктуры: `docker-compose down -v` <br>
 
+**ВАЖНО**: для Elasticsearch используемой версии (8.11) нужно установить параметр ОС `vm.max_map_count=262144`
+Если запуск производится в Windows в Docker Desktop на базе WSL, то перед каждым (!) запуском
+инфраструктуры надо выполнить в CMD 2 команды: <br>
+`wsl -d docker-desktop -u root` <br>
+`sysctl -w vm.max_map_count=262144` <br>
+Детали см. тут: https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-compose-file
+
 Для перегенерации мапперов MapStruct выполни `mvn clean compile`
 
-## MongoDB web console
-http://localhost:28081/
-(admin / changeme, see docker-compose.yaml)
+## Kibana
+http://localhost:5601/
+(под elastic/elastic, see .env & docker-compose.yaml)
 
 ## Swagger
 http://localhost:8090/swagger-ui/index.html

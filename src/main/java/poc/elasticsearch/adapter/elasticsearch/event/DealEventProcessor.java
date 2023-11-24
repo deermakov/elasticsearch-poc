@@ -1,11 +1,11 @@
-package poc.elasticsearch.adapter.mongodb.event;
+package poc.elasticsearch.adapter.elasticsearch.event;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;
 import org.springframework.data.mongodb.core.mapping.event.BeforeConvertEvent;
 import org.springframework.stereotype.Component;
-import poc.elasticsearch.adapter.mongodb.repository.PartyRepository;
+import poc.elasticsearch.adapter.elasticsearch.repository.PartyRepository;
 import poc.elasticsearch.domain.Deal;
 import poc.elasticsearch.domain.Party;
 

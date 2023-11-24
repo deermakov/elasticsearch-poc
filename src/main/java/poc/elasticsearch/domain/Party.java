@@ -5,8 +5,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.util.List;
 
@@ -16,12 +15,12 @@ import java.util.List;
     @JsonSubTypes.Type(IndividualEntrepreneur.class),
     @JsonSubTypes.Type(LegalEntity.class)
 })
-@Document("party")
+@Document(indexName = "party")
 @Data
 @ToString
 public abstract class Party {
     @Id
-    private String id;// автогенерация из коробки поддерживается для типов String, BigInteger, ObjectId
+    private String id;
     private String inn;
     private Address address;
 

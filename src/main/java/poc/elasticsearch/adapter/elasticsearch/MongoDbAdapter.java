@@ -1,9 +1,9 @@
-package poc.elasticsearch.adapter.mongodb;
+package poc.elasticsearch.adapter.elasticsearch;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import poc.elasticsearch.adapter.mongodb.repository.DealRepository;
-import poc.elasticsearch.adapter.mongodb.repository.PartyRepository;
+import poc.elasticsearch.adapter.elasticsearch.repository.DealRepository;
+import poc.elasticsearch.adapter.elasticsearch.repository.PartyRepository;
 import poc.elasticsearch.app.api.Storage;
 import poc.elasticsearch.domain.Deal;
 import poc.elasticsearch.domain.Party;

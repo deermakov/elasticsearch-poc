@@ -18,6 +18,5 @@ public class Deal {
     private String id;
     private String number;
     private BigDecimal amount;
-    @DocumentReference(collection = "party")
     private List<Party> participants;
 }

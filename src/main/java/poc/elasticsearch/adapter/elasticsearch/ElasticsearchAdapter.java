@@ -10,10 +10,12 @@ import poc.elasticsearch.domain.Party;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Component
 @RequiredArgsConstructor
-public class MongoDbAdapter implements Storage {
+public class ElasticsearchAdapter implements Storage {
     private final PartyRepository partyRepository;
     private final DealRepository dealRepository;
 
@@ -24,7 +26,8 @@ public class MongoDbAdapter implements Storage {
 
     @Override
     public List<Party> getAllParties() {
-        return partyRepository.findAll();
+        return StreamSupport.stream(partyRepository.findAll().spliterator(), false)
+            .collect(Collectors.toList());
     }
 
     @Override
@@ -39,11 +42,7 @@ public class MongoDbAdapter implements Storage {
 
     @Override
     public List<Deal> getAllDeals() {
-        List<Deal> list = dealRepository.findAll();
-        list.forEach(deal -> deal.getParticipants().forEach(
-                party -> party.setDeals(null)
-            )
-        );
-        return list;
+        return StreamSupport.stream(dealRepository.findAll().spliterator(), false)
+            .collect(Collectors.toList());
     }
 }

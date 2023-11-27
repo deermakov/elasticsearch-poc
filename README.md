@@ -7,22 +7,21 @@ PoC Spring Data Elasticsearch, включая:
 - Обновление (merge) графа сущностей, включая обновление (в т.ч. перепривязку) вложенных сущностей
 
 ## Инфраструктура
+Исходные compose- и .env-файлы взяты по ссылкам со страницы https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-compose-file <br/>
+Дополнительно в них отключена вся security, чтобы не возиться с SSL-сертификатами.
+
 Конфигурация инфраструктуры: _/docker <br>_
 Запуск инфраструктуры: `docker-compose up -d` <br>
 Остановка инфраструктуры: `docker-compose down -v` <br>
 
-**ВАЖНО**: для Elasticsearch используемой версии (8.11) нужно установить параметр ОС `vm.max_map_count=262144`
+**ВАЖНО**: для Elasticsearch используемой версии (8.11) нужно установить параметр ОС `vm.max_map_count=262144` (детали - по ссылке выше).
 Если запуск производится в Windows в Docker Desktop на базе WSL, то перед каждым (!) запуском
 инфраструктуры надо выполнить в CMD 2 команды: <br>
 `wsl -d docker-desktop -u root` <br>
 `sysctl -w vm.max_map_count=262144` <br>
-Детали см. тут: https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-compose-file
-
-Для перегенерации мапперов MapStruct выполни `mvn clean compile`
 
 ## Kibana
-http://localhost:5601/
-(под elastic/elastic, see .env & docker-compose.yaml)
+http://localhost:5601
 
 ## Swagger
 http://localhost:8090/swagger-ui/index.html
@@ -30,10 +29,10 @@ http://localhost:8090/swagger-ui/index.html
 1. Пример создания ИП вместе с его ФЛ:
 ```json
 {
-    "@class": "poc.elasticsearchsearch.domain.IndividualEntrepreneur",
+    "@class": "poc.elasticsearch.domain.IndividualEntrepreneur",
     "name": "ИП Бахарев",
     "individual": {
-        "@class": "poc.elasticsearchsearch.domain.Individual",
+        "@class": "poc.elasticsearch.domain.Individual",
         "fio": "Бахарев Петр Петрович",
         "address": {
             "fullAddress": "Москва, 113327"
@@ -47,10 +46,10 @@ http://localhost:8090/swagger-ui/index.html
 Перед выполнением подставь в _individual.id_ id существующего ФЛ:
 ```json
 {
-    "@class": "poc.elasticsearchsearch.domain.IndividualEntrepreneur",
+    "@class": "poc.elasticsearch.domain.IndividualEntrepreneur",
     "name": "ИП Бахарев 2",
     "individual": {
-        "@class": "poc.elasticsearchsearch.domain.Individual",
+        "@class": "poc.elasticsearch.domain.Individual",
         "id": "64ccee1a6a7dce4e3a8a3f4f",
         "fio": "Бахарев - 2"
     },
@@ -64,7 +63,7 @@ http://localhost:8090/swagger-ui/index.html
     "amount": 11.22,
     "participants": [
         {
-            "@class": "poc.elasticsearchsearch.domain.LegalEntity",
+            "@class": "poc.elasticsearch.domain.LegalEntity",
             "name": "ООО Ромашка",
             "inn": "111222",
             "address": {
@@ -72,7 +71,7 @@ http://localhost:8090/swagger-ui/index.html
             }
         },
         {
-          "@class": "poc.elasticsearchsearch.domain.Individual",
+          "@class": "poc.elasticsearch.domain.Individual",
           "fio": "Остап Бендер",
           "inn": "999000",
           "address": {
@@ -91,7 +90,7 @@ http://localhost:8090/swagger-ui/index.html
     "amount": 22.33,
     "participants": [
         {
-            "@class": "poc.elasticsearchsearch.domain.LegalEntity",
+            "@class": "poc.elasticsearch.domain.LegalEntity",
             "id": "64ccee1a6a7dce4e3a8a3f4f",
             "name": "ООО Ромашка - 2"
         }

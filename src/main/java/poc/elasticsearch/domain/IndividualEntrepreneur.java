@@ -8,9 +8,6 @@ import lombok.ToString;
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL) // для красоты
 public class IndividualEntrepreneur extends LegalEntity {
-
-    @DocumentReference
-    //@DBRef
-    private Individual individual;// Individual is referenced entity !
+    private Individual individual;
     private Boolean selfEmployed;
 }

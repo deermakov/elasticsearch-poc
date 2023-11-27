@@ -1,12 +1,10 @@
 server:
   port: 8090
 
-spring.data.mongodb:
-  host: localhost
-  port: 27017
-  database: admin
-  username: mongoadmin
-  password: mongoadmin
+spring.elasticsearch:
+  uris: http://localhost:9200
+  username: elastic
+  password: elastic
 
 logging:
   level:
@@ -16,5 +14,5 @@ logging:
     org.springframework.data.mongodb: DEBUG
 
 springdoc:
-  packagesToScan: poc.mongodb.adapter.rest
+  packagesToScan: poc.elasticsearch.adapter.rest
   show-actuator: true

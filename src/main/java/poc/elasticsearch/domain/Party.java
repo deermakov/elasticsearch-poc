@@ -15,7 +15,7 @@ import java.util.List;
     @JsonSubTypes.Type(IndividualEntrepreneur.class),
     @JsonSubTypes.Type(LegalEntity.class)
 })
-@Document(indexName = "party")
+@Document(indexName = "idx_party")
 @Data
 @ToString
 public abstract class Party {

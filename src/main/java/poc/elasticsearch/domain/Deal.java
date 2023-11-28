@@ -9,7 +9,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import java.math.BigDecimal;
 import java.util.List;
 
-@Document(indexName = "deal")
+@Document(indexName = "idx_deal")
 @Data
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL) // для красоты

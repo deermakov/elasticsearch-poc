@@ -1,7 +1,8 @@
 # elasticsearch-poc
 PoC Spring Data Elasticsearch, включая:
 - ElasticsearchRepository,
-- Entity callbacks
+- Entity callbacks (on IndividualEntrepreneur)
+- Nested fields (Deal.participants)
 - Embedded data model
   - т.к. Elasticsearch - это продукт, заточенный на поиск, а не на оптимальное хранение данных. А поиск быстрее всего работает с денормализованными данными. В целом, Elasticsearch имеет слабую поддержку нормализованной модели данных и не рекомендует ее использовать, см. [Join field type](https://www.elastic.co/guide/en/elasticsearch/reference/current/parent-join.html)
 - M:N relationships,
@@ -27,7 +28,7 @@ http://localhost:5601
 ## Swagger
 http://localhost:8090/swagger-ui/index.html
 
-1. Пример создания ИП вместе с его ФЛ:
+1. Пример создания ИП вместе с его ФЛ (ФЛ выписывается в отдельный документ вручную - с помощью entity callback):
 ```json
 {
     "@class": "poc.elasticsearch.domain.IndividualEntrepreneur",
@@ -57,7 +58,7 @@ http://localhost:8090/swagger-ui/index.html
     "selfEmployed": false
 }
 ```
-3. Пример создания сделки вместе с участниками
+3. Пример создания сделки вместе с участниками (участники выписываются в отдельные документы автоматом - с помощью @Field(type = Nested))
 ```json
 {
     "number": "Сделка-1",

@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.JoinTypeRelation;
+import org.springframework.data.elasticsearch.annotations.JoinTypeRelations;
+import org.springframework.data.elasticsearch.core.join.JoinField;
 
 import java.util.List;
 
@@ -24,4 +27,11 @@ public abstract class Party {
     private String inn;
     private Address address;
     private List<Deal> deals;
+    /*@JoinTypeRelations(
+        relations =
+            {
+                @JoinTypeRelation(parent = "individualEntrepreneur", children = "individual")
+            }
+    )*/
+    //private JoinField<String> relation;
 }

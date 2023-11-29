@@ -3,9 +3,6 @@ PoC Spring Data Elasticsearch, включая:
 - ElasticsearchRepository,
 - Entity callbacks (on IndividualEntrepreneur)
 - Nested fields (Deal.participants)
-- Embedded data model
-  - т.к. Elasticsearch - это продукт, заточенный на поиск, а не на оптимальное хранение данных. А поиск быстрее всего работает с денормализованными данными. В целом, Elasticsearch имеет слабую поддержку нормализованной модели данных и не рекомендует ее использовать, см. [Join field type](https://www.elastic.co/guide/en/elasticsearch/reference/current/parent-join.html)
-- M:N relationships,
 - ?? Обновление (merge) графа сущностей, включая обновление (в т.ч. перепривязку) вложенных сущностей
 
 ## Инфраструктура
@@ -101,3 +98,11 @@ http://localhost:8090/swagger-ui/index.html
 ```
 ## Замечания
 ### 1
+Elasticsearch - это продукт, заточенный на поиск, а не на оптимальное хранение данных.
+А поиск быстрее всего работает с денормализованными данными.
+В целом, Elasticsearch имеет слабую поддержку нормализованной модели данных
+(Join и Nested fields, Terms query) и не рекомендует ее использовать. <br.>
+Доп. информация:
+- [Join field type](https://www.elastic.co/guide/en/elasticsearch/reference/current/parent-join.html)
+- [Managing Relations Inside Elasticsearch](https://www.elastic.co/blog/managing-relations-inside-elasticsearch)
+- [Joining Two Indexes in Elasticsearch](https://opster.com/guides/elasticsearch/search-apis/elasticsearch-join-two-indexes/)

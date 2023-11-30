@@ -11,6 +11,7 @@ public interface Storage {
     List<Party> getAllParties();
 
     List<Party> getParty(String text);
+
     List<Deal> getDeal(String text);
 
     void saveDeal(Deal deal);

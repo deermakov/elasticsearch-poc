@@ -5,7 +5,6 @@ import org.springframework.data.elasticsearch.annotations.SourceFilters;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.data.util.Streamable;
 import poc.elasticsearch.domain.Deal;
-import poc.elasticsearch.domain.Party;
 
 public interface DealRepository extends ElasticsearchRepository<Deal, String> {
     @Query(
@@ -39,5 +38,4 @@ public interface DealRepository extends ElasticsearchRepository<Deal, String> {
             """
     )
     Streamable<Deal> findByText(String text);
-
 }

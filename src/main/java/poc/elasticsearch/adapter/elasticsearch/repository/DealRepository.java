@@ -29,13 +29,29 @@ public interface DealRepository extends ElasticsearchRepository<Deal, String> {
     Streamable<Deal> findAllParticipants();
 
     @Query(
-        """
-            {
-                "multi_match" : {
-                  "query":      "?0"
+    """
+    {
+        "dis_max" : {
+            "queries": [
+                {
+                    "multi_match" : {
+                        "query":"?0"
+                    }
+                },
+                {
+                    "nested": {
+                        "path": "participants",
+                        "query": {
+                            "multi_match" : {
+                                "query":"?0"
+                            }
+                        }
+                    }
                 }
-            }
-            """
+            ]
+        }
+    }
+    """
     )
     Streamable<Deal> findByText(String text);
 }

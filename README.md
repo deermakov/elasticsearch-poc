@@ -3,11 +3,12 @@ PoC Spring Data Elasticsearch, включая:
 - ElasticsearchRepository,
 - Entity callbacks (on IndividualEntrepreneur)
 - Nested fields (Deal.participants)
-- Nested query, custom query, source filter (DealRepository.findAllParticipants())
-- Full-text search (repositories' .findByText(String text))
+- Nested query / nested, custom query, source filter (DealRepository.findAllParticipants())
+- Combined query / dis_max (DealRepository.findByText())
+- Full-text query / multi_match (repositories' .findByText(String text))
+  - полнотекстовый поиск идет по всем не-nested полям любой вложенности.
   - кстати, для deals full-text search не ищет по полям participants, т.к. это nested-поле,
-и для поиска нужен Nested query. Полнотекстовый поиск идет по всем не-nested полям любой
-вложенности.
+и для поиска по ним нужен Nested query (реализован в DealRepository.findByText()).
 
 ## Инфраструктура
 Исходные compose- и .env-файлы взяты по ссылкам со страницы https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-compose-file <br/>

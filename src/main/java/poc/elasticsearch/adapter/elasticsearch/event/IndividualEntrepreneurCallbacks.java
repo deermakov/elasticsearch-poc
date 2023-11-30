@@ -5,15 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.elasticsearch.core.event.AfterSaveCallback;
 import org.springframework.data.elasticsearch.core.event.BeforeConvertCallback;
-import org.springframework.data.elasticsearch.core.join.JoinField;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.stereotype.Component;
 import poc.elasticsearch.adapter.elasticsearch.repository.PartyRepository;
-import poc.elasticsearch.domain.Deal;
 import poc.elasticsearch.domain.Individual;
 import poc.elasticsearch.domain.IndividualEntrepreneur;
-
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -25,8 +21,8 @@ public class IndividualEntrepreneurCallbacks implements BeforeConvertCallback<In
 
     @Override
     public IndividualEntrepreneur onBeforeConvert(IndividualEntrepreneur entity, IndexCoordinates index) {
-        if (entity.getIndividual() != null){
- //           entity.setRelation(new JoinField<>("individualEntrepreneur"));
+        if (entity.getIndividual() != null) {
+            //           entity.setRelation(new JoinField<>("individualEntrepreneur"));
         }
         return entity;
     }
@@ -38,8 +34,8 @@ public class IndividualEntrepreneurCallbacks implements BeforeConvertCallback<In
     @Override
     public IndividualEntrepreneur onAfterSave(IndividualEntrepreneur entity, IndexCoordinates index) {
         Individual individual = entity.getIndividual();
-        if (individual != null){
-  //          individual.setRelation(new JoinField<>("individual", entity.getId()));
+        if (individual != null) {
+            //          individual.setRelation(new JoinField<>("individual", entity.getId()));
             partyRepository.save(individual);
         }
         return entity;

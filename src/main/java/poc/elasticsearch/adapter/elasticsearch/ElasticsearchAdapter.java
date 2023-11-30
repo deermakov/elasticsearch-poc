@@ -1,7 +1,6 @@
 package poc.elasticsearch.adapter.elasticsearch;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Component;
 import poc.elasticsearch.adapter.elasticsearch.repository.DealRepository;
 import poc.elasticsearch.adapter.elasticsearch.repository.PartyRepository;
@@ -9,10 +8,7 @@ import poc.elasticsearch.app.api.Storage;
 import poc.elasticsearch.domain.Deal;
 import poc.elasticsearch.domain.Party;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -42,8 +38,13 @@ public class ElasticsearchAdapter implements Storage {
     }
 
     @Override
-    public Optional<Party> getParty(String id) {
-        return partyRepository.findById(id);
+    public List<Party> getParty(String text) {
+        return partyRepository.findByText(text).toList();
+    }
+
+    @Override
+    public List<Deal> getDeal(String text) {
+        return dealRepository.findByText(text).toList();
     }
 
     @Override

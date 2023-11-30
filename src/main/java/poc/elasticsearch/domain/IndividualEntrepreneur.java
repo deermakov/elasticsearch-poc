@@ -1,14 +1,9 @@
 package poc.elasticsearch.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
-
-import java.util.List;
 
 @Getter
 @Setter

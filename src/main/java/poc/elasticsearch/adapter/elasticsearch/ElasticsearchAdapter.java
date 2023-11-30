@@ -1,6 +1,7 @@
 package poc.elasticsearch.adapter.elasticsearch;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Component;
 import poc.elasticsearch.adapter.elasticsearch.repository.DealRepository;
 import poc.elasticsearch.adapter.elasticsearch.repository.PartyRepository;
@@ -8,9 +9,12 @@ import poc.elasticsearch.app.api.Storage;
 import poc.elasticsearch.domain.Deal;
 import poc.elasticsearch.domain.Party;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 @Component
@@ -26,8 +30,15 @@ public class ElasticsearchAdapter implements Storage {
 
     @Override
     public List<Party> getAllParties() {
-        return StreamSupport.stream(partyRepository.findAll().spliterator(), false)
-            .collect(Collectors.toList());
+
+        Stream<Party> dealParticipants = dealRepository.findAllParticipants()
+            .flatMap(deal -> deal.getParticipants().stream())
+            .stream();
+
+        Stream<Party> freeParties = partyRepository.findAll().stream();
+
+        // todo заменить на Multisearch
+        return Stream.concat(dealParticipants, freeParties).toList();
     }
 
     @Override

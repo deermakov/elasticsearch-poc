@@ -3,7 +3,7 @@ PoC Spring Data Elasticsearch, включая:
 - ElasticsearchRepository,
 - Entity callbacks (on IndividualEntrepreneur)
 - Nested fields (Deal.participants)
-- ?? Обновление (merge) графа сущностей, включая обновление (в т.ч. перепривязку) вложенных сущностей
+- Nested query, custom query, source filter (DealRepository.findAllParticipants())
 
 ## Инфраструктура
 Исходные compose- и .env-файлы взяты по ссылкам со страницы https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-compose-file <br/>
@@ -25,7 +25,7 @@ http://localhost:5601
 ## Swagger
 http://localhost:8090/swagger-ui/index.html
 
-1. Пример создания ИП вместе с его ФЛ (ФЛ выписывается в отдельный документ вручную - с помощью entity callback):
+1. Пример создания ИП с его ФЛ (ФЛ выписывается в отдельный документ вручную - с помощью entity callback):
 ```json
 {
     "@class": "poc.elasticsearch.domain.IndividualEntrepreneur",
@@ -41,21 +41,7 @@ http://localhost:8090/swagger-ui/index.html
 }
 ```
 
-2. ?? Пример создания ИП со ссылкой на существующего ФЛ, при этом также обновляется этот ФЛ (поле "fio").
-Перед выполнением подставь в _individual.id_ id существующего ФЛ:
-```json
-{
-    "@class": "poc.elasticsearch.domain.IndividualEntrepreneur",
-    "name": "ИП Бахарев 2",
-    "individual": {
-        "@class": "poc.elasticsearch.domain.Individual",
-        "id": "64ccee1a6a7dce4e3a8a3f4f",
-        "fio": "Бахарев - 2"
-    },
-    "selfEmployed": false
-}
-```
-3. Пример создания сделки вместе с участниками (участники выписываются в отдельные документы автоматом - с помощью @Field(type = Nested))
+2. Пример создания сделки с участниками
 ```json
 {
     "number": "Сделка-1",
@@ -80,29 +66,21 @@ http://localhost:8090/swagger-ui/index.html
     ]
 }
 ```
-4. ?? Пример создания сделки со ссылкой на существующего участника-ЮЛ,
-  при этом также обновляется этот ЮЛ (поле "name").
-   Перед выполнением подставь в _participants.id_ id существующего ЮЛ
-```json
-{
-    "number": "Сделка-2",
-    "amount": 22.33,
-    "participants": [
-        {
-            "@class": "poc.elasticsearch.domain.LegalEntity",
-            "id": "64ccee1a6a7dce4e3a8a3f4f",
-            "name": "ООО Ромашка - 2"
-        }
-    ]
-}
-```
+
 ## Замечания
 ### 1
 Elasticsearch - это продукт, заточенный на поиск, а не на оптимальное хранение данных.
-А поиск быстрее всего работает с денормализованными данными.
-В целом, Elasticsearch имеет слабую поддержку нормализованной модели данных
-(Join и Nested fields, Terms query) и не рекомендует ее использовать. <br.>
+Поэтому Elasticsearch не может быть полноценной заменой RDBMS и не подходит на
+роль мастер-системы хранения с нормализованной моделью данных, поиском и устранением дубликатов и т.д.
+### 2
+Elasticsearch имеет слабую поддержку нормализованной модели данных
+(Join и Nested fields, Terms query) и сам не рекомендует ее использовать по соображениям производительности. <br/>
 Доп. информация:
 - [Join field type](https://www.elastic.co/guide/en/elasticsearch/reference/current/parent-join.html)
 - [Managing Relations Inside Elasticsearch](https://www.elastic.co/blog/managing-relations-inside-elasticsearch)
 - [Joining Two Indexes in Elasticsearch](https://opster.com/guides/elasticsearch/search-apis/elasticsearch-join-two-indexes/)
+
+### 3
+В коде есть ручное объединение результатов нескольких запросов к разным индексам - см.
+`poc.elasticsearch.adapter.elasticsearch.ElasticsearchAdapter.getAllParties()`.
+Можно попробовать заменить это на один запрос с помощью [Multi search API](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-multi-search.html)
